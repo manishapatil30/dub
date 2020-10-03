@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SignUp Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <script src="https://code.angularjs.org/1.7.8/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-cookies.js"></script>
+    <!-- <link rel="stylesheet" href="style.css">-->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("Images/logo.jpg") no-repeat scroll top left;
+            background-size: cover;
+            font-family: sans-serif;
+        }
+
+        .loginBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 340px;
+            padding: 80px 40px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            color: #ff267e;
+            text-align: center;
+        }
+
+        .loginBox p {
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .loginBox input {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .loginBox input[type="text"],
+        .loginBox input[type="password"] {
+            border: none;
+            border-bottom: 1px solid #fff;
+            background: transparent;
+            outline: none;
+            height: 40px;
+            color: #fff;
+            font-size: 16px;
+
+        }
+
+        .loginBox input[type="submit"] {
+            border: none;
+            outline: none;
+            height: 40px;
+            color: #fff;
+            font-size: 16px;
+            background: rgb(255, 38, 126);
+            cursor: pointer;
+            border-radius: 20px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+
+
+        }
+
+        .loginBox input[type="submit"]:hover {
+            background: #efed40;
+            color: #262626;
+        }
+
+        .loginBox a {
+            color: 1E90ff;
+            font-size: 14px;
+            font-weight: bold;
+            float: right;
+        }
+
+        ::placeholder {
+            color: rgba(255, 255 green, 255 blue, 0.5 alpha);
+        }
+
+        .user {
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            position: absolute;
+            top: calc(-100px/2);
+            left: calc(50% - 50px);
+        }
+        #msg {
+            color: red;
+            font-size: 18px;
+        }
+    </style>
+    <script>
+        var app = angular.module("LoginApp", ['ngCookies']);
+        app.controller("LoginController", function ($scope, $http,$cookies) {
+
+
+            $scope.EmailId = document.getElementById("email").value;
+            $scope.Password = document.getElementById("password").value;
+            $scope.lblMsg = null;
+            $scope.IsDisplay = false;
+
+            $http({
+                method: "GET",
+                url: "API/products.json"
+            }
+            ).then(function (response) {
+                $scope.responseDetails = response.data;
+                $scope.UserName = $scope.responseDetails.EmailID;
+                $scope.Pass = $scope.responseDetails.Password;
+            },
+                function (response) {
+                    $scope.responseDetails = response.data;
+
+                })
+            $scope.Login = function () {
+
+                $scope.EmailId = document.getElementById("email").value;
+                $scope.Password = document.getElementById("password").value;
+                if ($scope.UserName == $scope.EmailId && $scope.Pass == $scope.Password) {
+                    $cookies.putObject("EmailId", $scope.EmailId);
+                    location.href = "adminpanel.html";
+                }
+                else {
+
+                    document.getElementById("msg").innerText = "Incorrect Credentials";
+                }
+
+            };
+
+            // $scope.Login = function () {
+            //     location.href = "adminpanel.html";
+            // }
+        })
+    </script>
+</head>
+
+<body ng-app="LoginApp" ng-controller="LoginController">
+    <div class="loginBox">
+        <img src="Images/icon.png" class="user">
+        <!-- <h2>SignUp Here</h2> -->
+        <p>Email</p>
+        <input type="text" id="email" ng-model="EmailId" placeholder="User ID">
+        <p>Password</p>
+        <input type="password" id="password" ng-model="Password" placeholder="Password">
+
+        <input type="submit" name="" value="Sign In" ng-click="Login()">
+        <div id="msg" align="center"></div>
+
+    </div>
+</body>
+
+</html>

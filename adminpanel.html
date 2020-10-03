@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dubshoot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="adminpanel.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.angularjs.org/1.7.8/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-cookies.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.0.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.27/angular.js"
+        data-semver="1.2.27"></script>
+    <script src="http://urigo.github.io/angular-spinkit/javascripts/angular-spinkit.js"></script>
+
+    <script type="text/javascript" src="adminpanel.js"></script>
+
+
+</head>
+
+<body ng-app="DemoApp" ng-controller="HomeController">
+    <div id="frm">
+        <div class="col-xs-5 col-sm-3 col-md-3">
+            <div class="sidebar">
+                <div class="logo row">
+                    <img src="Images/dubshootlogo.png" width="70" height="70" style="margin-left: 20px;">
+                    <a id="home" href="adminpanel.html"
+                        style="color: white;margin-top: 8px;font-size: 20px;margin-left: 130px;"
+                        onMouseOver="this.style.bgcolor ='black'"><i class="fa fa-home"></i> Home</a>
+                </div>
+                <div style="margin-top: 25px;" id="leftreload" name="leftreload">
+                    <div class="row" id="drp">
+                        <a href="#!bannerImages" style="margin-left: 15px;" class="col-sm-9"
+                            ng-click="sendAjax()">Banner
+                            Images</a>
+                    </div>
+
+                    <div ng-if="!seletedValue">
+                        <div class="row" id="drp" ng-repeat="item in responseDetails.ContentDiscovery"
+                            class="col-sm-12">
+                            <a href="#!categorytrend/{{item.ID}}" style="margin-left: 15px;" class="col-sm-7"
+                                ng-click="loadddd()">{{item.Title}}</a>
+                            <label class="switch" ng-show="item.Status == 0" ng-click="onCategory(item.ID)">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+
+                            <label class="switch" ng-show="item.Status != 0" ng-click="offCategory(item.ID)">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+
+                            <div class="dropdown">
+                                <strong class="dropbtn" style="float: right;margin-left: 15px;"
+                                    data-toggle="dropdown">...
+                                </strong>
+                                <div id="myDropdown" class="dropdown-menu dropdown-content"
+                                    style="right: 0;color: black;">
+                                    <a href="" ng-show="!$first" ng-click="moveUp($index)">Move Up</a>
+                                    <div class="dropdown-divider" ng-show="!$first"></div>
+                                    <a href="" ng-show="!$last" ng-click="moveDown($index)">Move Down</a>
+                                    <div class="dropdown-divider" ng-show="!$last"></div>
+                                    <a href="" ng-click="menudeleteCategory(item.ID)">Delete Category</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="seletedValue">
+                        <div class="row" id="drp" ng-repeat="item in videoResponse.ContentDiscovery">
+                            <a href="#!categorytrend/{{item.ID}}" style="margin-left: 15px;" class="col-sm-7"
+                                ng-click="loadddd()">{{item.Title}}</a>
+                            <label class="switch" ng-show="item.Status == 0" ng-click="onCategory(item.ID)">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+
+                            <label class="switch" ng-show="item.Status != 0" ng-click="offCategory(item.ID)">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                            <div class="dropdown">
+                                <strong class="dropbtn" style="float: right;margin-left: 15px;"
+                                    data-toggle="dropdown">...
+                                </strong>
+                                <div id="myDropdown" class="dropdown-menu dropdown-content"
+                                    style="right: 0;color: black;">
+                                    <a href="" ng-show="!$first" ng-click="moveUp($index)">Move Up</a>
+                                    <div class="dropdown-divider" ng-show="!$first"></div>
+                                    <a href="" ng-show="!$last" ng-click="moveDown($index)">Move Down</a>
+                                    <div class="dropdown-divider" ng-show="!$last"></div>
+                                    <a href="" ng-click="menudeleteCategory(item.ID)">Delete Category</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <a class="active" href="#!bannerImages">Banner Images <strong>...</strong></a>
+                    <a href="#!trendingVideos">Trending Videos <strong>...</strong></a>
+                    <a href="#!">#Tutorials <strong>...</strong></a>
+                    <a href="#about">#Dubshoot <strong>...</strong></a> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-7 col-sm-9 col-md-9">
+            <div class="content">
+                <header>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div id="search" class="col-xs-8" ng-hide="isActive('/bannerImages')">
+                            <div class="input-group" style="margin-left: 15px;" ng-hide="isActive('/')">
+                                <span style=" background-color: white;border-color: white; font-size: 15px;"
+                                    class="input-group-addon">
+                                    <i style="color:#fd5b86; " class="glyphicon glyphicon-search"></i></span>
+                                <input id="sear" type="text" class="form-control" size="70px" ng-model="search.$"
+                                    placeholder="Search" style=" border-color: white;border-left: none;box-shadow: none;
+                                                                                        border-color: inherit;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <select id="sample" ng-model="bannerlang" ng-change="selectLanguage(bannerlang)" class="fa"
+                            style="margin-right: 10px;font-family: FontAwesome,sans-serif;
+                                    border-radius: 3px;
+                                    background-color: #f2f2f2;
+                                    border: 1px solid grey;
+                                    color: black;
+                                    font-size: 14px;
+                                    padding: 6px 15px 7px 15px;
+                                   margin-top: 15px;margin-left: 30px;">
+                            <option disabled selected value> &#xf0ac; &nbsp; Language</option>
+                            <option>All</a></option>
+                            <option>English</option>
+                            <option>Telugu</option>
+                            <option>Tamil</option>
+                            <option>Kannada</option>
+                            <option>Malayalam</option>
+                            <option>Universal</option>
+                            <option>Hindi</option>
+                            <option>Bengali</option>
+                            <option>Punjabi</option>
+                            <option>Oriya</option>
+                            <option>Marathi</option>
+                            <option>Gujarati</option>
+                            <option>Urdu</option>
+                        </select>
+                        <button id="adds2" data-toggle="modal" data-target="#addCategory"><i class="fa fa-plus-circle"
+                                style="margin-right:5px;"></i>
+                            Add New Category</button>
+                        <div class="icon">
+                            <img src="Images/avatar2.png" width="40" height="40" class="img-circle">
+                            <!-- <img class="img-circle" alt="" width="40" height="40" style="margin-top: 3px;margin-left: 15px;"
+                                                                ng-show="lott.AdminUserDetails.ProfilePic" ng-src="{{lott.AdminUserDetails.ProfilePic}}" />
+                                                            <img class="img-circle" alt="" width="40" height="40" style="margin-top: 3px;margin-left: 15px;"
+                                                                ng-show="!lott.AdminUserDetails.ProfilePic" src="Images/avatar2.png" /> -->
+                            <!-- <span style="margin-left: 10px;">Swathi
+                                <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>
+                            </span> -->
+                            <span style="margin-left: 10px;">Swathi
+                                <div class="popup" ng-click="myFunction()"><a href=""><i class="fas fa-chevron-down"
+                                            style="margin-left: 5px;color: black;"></i>
+                                    </a>
+                                    <span class="popuptext" id="myPopup">
+                                        <a href="signUp.html"><i class="fa fa-power-off"
+                                                style="margin-right: 10px;"></i>Logout</a>
+                                    </span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </header>
+                <section>
+                    <div class="modal" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 align="center">Add Videos to Category</h4>
+                                    <div style="display: block;" id="input">
+                                        <input type="text" placeholder="Enter Video ID" ng-model="VidID" id="vidid">
+                                        <!-- <span id="hide">
+                                            <label style="margin-top: 2px; margin-bottom: 0;">
+                                                <input type="file" name="file" />
+                                               
+                                                <span class="photo_text hidden-xs">
+                                                    <img src="Images/get1.png" height="60" width="62"
+                                                        style="cursor: pointer;margin-left: 10px;">
+    
+                                                </span>
+                                            </label>
+                                        </span> -->
+                                    </div>
+                                    <div id="btn">
+                                        <button id="adds3" ng-click="postdata()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal" id="addUser" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 align="center">Add User to Category</h4>
+                                    <div style="display: block;" id="input">
+                                        <input type="text" placeholder="Enter User Id" ng-model="UserName"
+                                            id="username">
+                                        <!-- <span id="hide">
+                                            <label style="margin-top: 2px; margin-bottom: 0;">
+                                                <input type="file" name="file" />
+                                              
+                                                <span class="photo_text hidden-xs">
+                                                    <img src="Images/get1.png" height="60" width="62"
+                                                        style="cursor: pointer;margin-left: 10px;">
+    
+                                                  
+                                                </span>
+                                            </label>
+                                        </span> -->
+                                    </div>
+                                    <div id="btn">
+                                        <button id="adds3" ng-click="postUserData()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal" id="addCategory" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 align="center">Add New Category</h4>
+                                    <div id="input1" style="margin-top: 40px;">
+                                        <select id="select" ng-model="cateola">
+                                            <option disabled selected value>Select Language</option>
+                                            <option>English</option>
+                                            <option>Telugu</option>
+                                            <option>Tamil</option>
+                                            <option>Kannada</option>
+                                            <option>Malayalam</option>
+                                            <option>Universal</option>
+                                            <option>Hindi</option>
+                                            <option>Bengali</option>
+                                            <option>Punjabi</option>
+                                            <option>Oriya</option>
+                                            <option>Marathi</option>
+                                            <option>Gujarati</option>
+                                            <option>Urdu</option>
+                                        </select>
+                                        <!-- <input type="text" placeholder="Enter Category Type" ng-model="Type" id="type"> -->
+                                    </div>
+                                    <div id="input1">
+                                        <select id="selector" ng-model="typeola">
+                                            <option disabled selected value>Select Category Type</option>
+                                            <option value="1">Video</option>
+                                            <option value="3">User</option>
+                                        </select>
+                                    </div>
+                                    <div style="display: block;" id="input">
+                                        <input type="text" placeholder="Category Name" ng-model="ADDCat" id="addcat">
+                                    </div>
+                                    <div id="btn">
+                                        <button id="adds3" ng-click="addCategory(cateola,typeola)">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal" id="renameCategory" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 align="center">Rename Category Name</h4>
+                                    <div id="input1" style="margin-top: 40px;">
+
+                                        <input type="text" placeholder="Enter Category Name" ng-model="Type" id="type">
+                                    </div>
+                                    <div id="btn">
+                                        <button id="adds3" ng-click="renameCategory()"
+                                            style="margin-top: 30px;">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal" id="addImages" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 align="center">Update Image</h4>
+                                    <div style="display: block;" id="input">
+                                        <input type="text" placeholder="Update ContentLink" ng-model="ImgID" id="imgid">
+                                        <br>
+                                        <span id="hide">
+                                            <label style="margin-top: 15px; margin-bottom: 0;">
+                                                <input type="file" name="file"
+                                                    onchange="angular.element(this).scope().newFile(this)"
+                                                    nv-file-select uploader="$ctrl.uploader" ng-click="upppimg()" />
+                                                <div class="photo_text hidden-xs" id="lg">
+                                                    <img ng-src="data:image/png;base64,{{newImg}}" ng-model="photo"
+                                                        id="photo-id" width="60" height="60" class="img-rounded"
+                                                        ng-show="viss" />
+                                                    <img src="Images/get1.png" height="60" width="62"
+                                                        style="cursor: pointer;margin-left: 10px;">
+                                                    <!-- <img ng-src="data:image/png;base64,{{newImg}}" ng-model="photo"
+                                                        id="photo-id" width="45" height="45" class="img-rounded" /> -->
+                                                </div>
+                                            </label>
+                                        </span>
+                                        <!-- <button><i class="material-icons"
+                                                style="font-size:30px;color:#fd5b86;">add_circle_outline</i></button> -->
+                                    </div>
+                                    <div id="btn">
+                                        <button id="adds3" ng-click="putdata()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="modal" id="postImages" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 align="center">Add New Image</h4>
+                                    <!-- <h2>{{newPostImg}}</h2> -->
+                                    <div id="input1">
+                                        <select id="selectvideolang" ng-model="videola">
+                                            <option disabled selected value>Select Language</option>
+                                            <option>English</option>
+                                            <option>Telugu</option>
+                                            <option>Tamil</option>
+                                            <option>Kannada</option>
+                                            <option>Malayalam</option>
+                                            <option>Universal</option>
+                                            <option>Hindi</option>
+                                            <option>Bengali</option>
+                                            <option>Punjabi</option>
+                                            <option>Oriya</option>
+                                            <option>Marathi</option>
+                                            <option>Gujarati</option>
+                                            <option>Urdu</option>
+                                        </select>
+                                        <input type="text" placeholder="Enter Image Title" ng-model="Title" id="title">
+                                    </div>
+                                    <div style="display: block;" id="input">
+                                        <!-- <input type="text" placeholder="Enter Image ID" ng-model="PImgID" id="pimgid"> -->
+                                        <span id="hide">
+                                            <label style="margin-top: 2px; margin-bottom: 0;">
+                                                <input type="file" name="file"
+                                                    onchange="angular.element(this).scope().uploadFile(this)"
+                                                    id="photo-uploadd" nv-file-select uploader="$ctrl.uploader" />
+                                                <span class="photo_text hidden-xs" id="lg" ng-click="upimg()">
+                                                    <img ng-src="data:image/png;base64,{{newPostImg}}" ng-model="photo"
+                                                        id="photo-idd" width="60" height="60" class="img-rounded"
+                                                        ng-show="diss" />
+                                                    <img src="Images/get1.png" height="60" width="62"
+                                                        style="cursor: pointer;margin-left: 10px;">
+
+                                                </span>
+                                                <!-- <button ng-click="abc()">abc</button> -->
+                                            </label>
+                                        </span>
+                                        <!-- <button><i class="material-icons"
+                                                style="font-size:30px;color:#fd5b86;">add_circle_outline</i></button> -->
+                                    </div>
+                                    <div id="btn">
+                                        <button id="adds3" ng-click="postImage(videola)">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="height: 100%" id="reloadpage">
+                        <ng-view></ng-view>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-show="IsDisplay">
+        <div class="row">
+            <div id="loader">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="loading"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

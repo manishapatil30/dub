@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Artistry</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="Views/catTrendVideos.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://code.angularjs.org/1.7.8/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.27/angular.js"
+        data-semver="1.2.27"></script>
+    <script src="http://urigo.github.io/angular-spinkit/javascripts/angular-spinkit.js"></script>
+
+    <script type="text/javascript" src="../Views/catTrendVideos.js"></script>
+</head>
+
+<body ng-app="DemoApp" ng-controller="HomeController">
+    <!-- <header>
+        <div class="col-md-6">
+            <div id="search" class="col-xs-8">
+                <div class="input-group" style="margin-left: 15px;">
+                    <span style=" background-color: white;border-color: white; font-size: 15px;"
+                        class="input-group-addon">
+                        <i style="color:#fd5b86; " class="glyphicon glyphicon-search"></i></span>
+                    <input id="sear" type="text" class="form-control" size="70px" ng-model="search.$"
+                        placeholder="Search" style=" border-color: white;border-left: none;box-shadow: none;
+                                                                    border-color: inherit;">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <select id="sample" ng-model="bannerlang" ng-change="selectLanguage(bannerlang)" class="fa" style="margin-right: 10px;font-family: FontAwesome,sans-serif;
+                border-radius: 3px;
+                background-color: #f2f2f2;
+                border: 1px solid grey;
+                color: black;
+                font-size: 14px;
+                padding: 6px 7px 7px 7px;
+               margin-top: 15px;margin-left: 50px;">
+                <option disabled selected value> &#xf0ac; Language</option>
+                <option>English</option>
+                <option>Telugu</option>
+                <option>Tamil</option>
+                <option>Kannada</option>
+                <option>Malayalam</option>
+                <option>Universal</option>
+                <option>Hindi</option>
+                <option>Bengali</option>
+                <option>Punjabi</option>
+                <option>Oriya</option>
+                <option>Marathi</option>
+                <option>Gujarati</option>
+                <option>Urdu</option>
+            </select>
+            <button id="adds2" data-toggle="modal" data-target="#addCategory"><i class="fa fa-plus-circle"
+                    style="margin-right:5px;"></i>
+                Add New Category</button>
+            <div class="icon">
+                <img src="Images/avatar2.png" width="40" height="40" class="img-circle">
+             
+                <span style="margin-left: 10px;">Swathi
+                    <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>
+                </span>
+            </div>
+        </div>
+    </header> -->
+    <div id="trend">
+        <h4 data-toggle="modal" data-target="#renameCategory">{{title}} <i class="fa fa-edit" style="margin-left: 5px;"></i></h4>
+        <!-- <div id="nextprev">
+            <a class="btn" ng-click="Previous()" href="" ng-class="{disabled: startWith == 0}" style="color: #fd5b86;
+            font-size: 28px;
+            text-decoration: none;"> &laquo;</a> <a class="btn" ng-click="Next()" href=""
+                ng-class="{disabled: startWith >= disable.length - 8}" style="color: #fd5b86;
+                font-size: 28px;
+                text-decoration: none;">&raquo;
+            </a>
+
+        </div> -->
+        <div id="nextprev">
+            <a href="" style="color: black;font-size: 18px;
+            text-decoration: none;">{{startWith/recordsPerPage+1}} of {{numberOfPages()}}</a>
+            <a class="btn" ng-click="Previous()" href="" ng-class="{hide: startWith == 0}" style="color: #fd5b86;
+            font-size: 20px;margin-top: -7px;
+            text-decoration: none;"><i class="fa fa-angle-left"></i></a> <a class="btn" ng-click="Next()" href=""
+                ng-class="{hide: startWith >= disable.length - 30}" style="color: #fd5b86;
+                font-size: 20px;margin-top: -7px;
+                text-decoration: none;"><i class="fa fa-angle-right"></i>
+            </a>
+
+        </div>
+    </div>
+    <circle-spinner ng-show="prograssing"></circle-spinner>
+
+    <div id="vidreload">
+        <span style="margin-left: 5px;" class="card-deck" ng-show="videoType==1" id="videCard">
+            <div id="card"
+                ng-repeat="item in ServerR.ContentDiscovery | filter:search | limitTo:recordsPerPage:startWith">
+                <div class=" card" style="border: none;">
+                    <div class="card-body">
+                        <video id='VideoPlayer' visible="true" controls="controls" src="{{item.VideoURL}}" height="160"
+                            width="180">
+                            <source type='video/mp4a;codecs="avc1.42E01E,mp4a.40.2"' onclick="vidplay()">
+                        </video>
+                        <h4 align="center">{{item.VideoID}}</h4>
+                        <h5 align="center">{{item.UserName}}</h5>
+                        <div style="display: block;text-align: center;margin-top: -10px;">
+                            <small align="center"><i
+                                    class="fa fa-heart-o">{{(item.Likes==null?"0":(item.Likes))}}</i></small>
+                            <small><i class="fa fa-eye"
+                                    style="margin-left: 5px;"></i>{{(item.Hits==null?"0":(item.Hits))}}</small>
+                        </div>
+                        <div id="adds4div">
+                            <button align="center" id="adds4" ng-click="deleteVideo(item.VideoID)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <span class="card-deck" ng-if="videoType!=1" id="imgcard">
+            <span id="card"
+                ng-repeat="item in ServerR.ContentDiscovery | filter:search | limitTo:recordsPerPage:startWith">
+                <div class="card" style="border: none;">
+                    <div class="card-body">
+                        <img src="{{item.PhotoURL}}" width="230" height="180">
+                        <h4 align="center">{{item.ObjectID}}</h4>
+                        <h5 align="center">{{item.UserName}}</h5>
+                        <div style="display: block;text-align: center;margin-top: -10px;">
+                            <small align="center"><i
+                                    class="fa fa-heart-o">{{(item.Likes==null?"0":(item.Likes))}}</i></small>
+                            <small><i class="fa fa-user-o"
+                                    style="margin-left: 5px;"></i>{{(item.Followers==null?"0":(item.Followers))}}</small>
+                        </div>
+                        <div id="adds4div">
+                            <button align="center" id="adds4" ng-click="deleteVideo(item.ObjectID)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </span>
+    </div>
+    <!-- <div ng-show="videolang">
+        <span class="card-deck" ng-show="videoType==1" id="videCard">
+            <div id="card"
+                ng-repeat="item in videoResponse.ContentDiscovery | filter:search | limitTo:recordsPerPage:startWith"">
+                <div class=" card" style="border: none;">
+                <div class="card-body">
+                    <video id='VideoPlayer' visible="true" controls="controls" src="{{item.VideoURL}}" height="160"
+                        width="180">
+                        <source type='video/mp4a;codecs="avc1.42E01E,mp4a.40.2"' onclick="vidplay()">
+                    </video>
+                    <h4 align="center">{{item.VideoID}}</h4>
+                    <h5 align="center">{{item.UserName}}</h5>
+                    <div style="display: block;text-align: center;margin-top: -10px;">
+                        <small align="center"><i
+                                class="fa fa-heart-o">{{(item.Likes==null?"0":(item.Likes))}}</i></small>
+                        <small><i class="fa fa-eye"
+                                style="margin-left: 5px;"></i>{{(item.Hits==null?"0":(item.Hits))}}</small>
+                    </div>
+                    <div id="adds4div">
+                        <button align="center" id="adds4" ng-click="deleteVideo(item.VideoID)">Delete</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    </span>
+    <span class="card-deck" ng-if="videoType!=1" id="imgcard">
+        <span id="card" ng-repeat="item in ServerR.ContentDiscovery | filter:search | limitTo:recordsPerPage:startWith">
+            <div class="card" style="border: none;">
+                <div class="card-body">
+                    <img src="{{item.PhotoURL}}" width="300" height="180">
+                    <div>
+                        <a href="" ng-click="deleteVideo(item.ObjectID)">Remove</a>
+                    </div>
+
+                </div>
+            </div>
+        </span>
+    </span>
+    </div> -->
+    <div class="center">
+        <button align="center" id="adds" data-toggle="modal" data-target="#myModal" ng-show="videoType==1"
+            ng-click="ServerR.reload()">Add
+            Video</button>
+        <button align="center" id="adds" data-toggle="modal" data-target="#addUser" ng-if="videoType!=1">Add
+            User</button>
+        <button align="center" id="adds1" ng-click="deleteCategory()">Delete Category</button>
+
+
+    </div>
+
+</body>
+
+</html>

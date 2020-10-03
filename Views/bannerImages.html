@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Artistry</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="Views/bannerImages.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.angularjs.org/1.7.8/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.27/angular.js"
+        data-semver="1.2.27"></script>
+    <script src="http://urigo.github.io/angular-spinkit/javascripts/angular-spinkit.js"></script>
+
+    <script type="text/javascript" src="../Views/bannerImages.js"></script>
+
+</head>
+
+<body ng-app="DemoApp" ng-controller="HomeController">
+    <!-- <header>
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+            <select id="sample" ng-model="bannerlang" ng-change="selectLanguage(bannerlang)" class="fa" style="margin-left: 45px;margin-right: 10px;font-family: FontAwesome,sans-serif; border-radius: 3px; background-color: #f2f2f2;
+            border: 1px solid grey;color: black;font-size: 14px; padding: 6px 7px 7px 7px;  margin-top: 15px;">
+                <option disabled selected value> &#xf0ac; Language</option>
+                <option>English</option>
+                <option>Telugu</option>
+                <option>Tamil</option>
+                <option>Kannada</option>
+                <option>Malayalam</option>
+                <option>Universal</option>
+                <option>Hindi</option>
+                <option>Bengali</option>
+                <option>Punjabi</option>
+                <option>Oriya</option>
+                <option>Marathi</option>
+                <option>Gujarati</option>
+                <option>Urdu</option>
+            </select>
+            <button id="adds2" data-toggle="modal" data-target="#addCategory"><i class="fa fa-plus-circle"
+                    style="margin-right:5px;"></i>
+                Add New Category</button>
+            <div class="icon">
+                <img src="Images/avatar2.png" width="40" height="40" class="img-circle">
+                <span style="margin-left: 10px;">Swathi
+                    <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>
+                </span>
+            </div>
+        </div>
+    </header> -->
+    <div id="trend" ng-if="!bannerlang">
+        <!-- <div id="nextprev" style="float: right;">
+            <a class="btn" ng-click="previousBanner()" href="" ng-class="{disabled: currentPage == 0}" style="color: #fd5b86;
+            font-size: 28px;text-decoration: none;"> &laquo;</a>
+            <a class="btn" ng-click="nextBanner()" href="" ng-class="{disabled: currentPage >= daata.length - 9}" style="color: #fd5b86;
+                font-size: 28px;text-decoration: none;">&raquo;
+            </a>
+        </div> -->
+        <div id="nextprev" style="float: right;">
+            <a href="" style="color: black;font-size: 18px;
+                text-decoration: none;">{{currentPage/PerPage+1}} of {{numberOfbannerPages()}}</a>
+            <a class="btn" ng-click="previousBanner()" href="" ng-class="{hide: currentPage == 0}" style="color: #fd5b86;
+             font-size: 18px;text-decoration: none;margin-top: -5px;"><i class="fa fa-angle-left"></i></a>
+            <a class="btn" ng-click="nextBanner()" href="" ng-class="{hide: currentPage >= daata.length - 9}" style="color: #fd5b86;
+                 font-size: 18px;text-decoration: none;margin-top: -5px;"><i class="fa fa-angle-right"></i>
+            </a>
+
+        </div>
+    </div>
+    <div id="trend" ng-show="bannerlang">
+        <div id="nextprev" style="float: right;">
+            <a href="" style="color: black;font-size: 18px;
+                text-decoration: none;">{{currentPage/PerPage+1}} of {{bannerPages()}}</a>
+            <a class="btn" ng-click="previousBanner()" href="" ng-class="{hide: currentPage == 0}" style="color: #fd5b86;
+            font-size: 18px;text-decoration: none;margin-top: -5px;"><i class="fa fa-angle-left"></i></a>
+            <a class="btn" ng-click="nextBanner()" href="" ng-class="{hide: currentPage >= daataLang.length - 9}"
+                style="color: #fd5b86;
+                font-size: 18px;text-decoration: none;margin-top: -5px;"><i class="fa fa-angle-right"></i>
+            </a>
+        </div>
+    </div>
+    <!-- <circle-spinner ng-show="prograssing"></circle-spinner> -->
+    <div ng-if="!bannerlang">
+        <span class="card-deck">
+            <div id="card" ng-repeat="item in Details.BannerImages | filter:search | limitTo:PerPage:currentPage">
+                <div class="card" style="border: none;">
+                    <div class="card-body">
+                        <a href="{{item.ContentLink}}" style="cursor: pointer;"><img src="{{item.ImageURL}}" width="320"
+                                height="180"></a>
+                        <div>
+                            <a href="" data-toggle="modal" data-target="#addImages" ng-click="edit(item.ID)">Edit</a>
+                            <strong style="color: gray;margin: 5px;">|</strong> <a href=""
+                                ng-click=remove(item.ID)>Remove</a> <strong style="color: gray;margin: 5px;">|</strong>
+                            <a href="">
+                                <label class="switchOn" ng-show="item.Status == 0" ng-click="onBanner(item.ID)">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                                <label class="switchOn" ng-show="item.Status != 0" ng-click="offBanner(item.ID)">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+    <div ng-show="bannerlang">
+        <span class="card-deck">
+            <div id="card"
+                ng-repeat="item in languageResponse.BannerImages | filter:search | limitTo:PerPage:currentPage">
+                <div class="card" style="border: none;">
+                    <div class="card-body">
+                        <a href="{{item.ContentLink}}" style="cursor: pointer;"> <img src="{{item.ImageURL}}"
+                                width="320" height="180"></a>
+                        <div>
+                            <a href="" data-toggle="modal" data-target="#addImages" ng-click="edit(item.ID)">Edit</a>
+                            <strong style="color: gray;margin: 5px;">|</strong> <a href=""
+                                ng-click=remove(item.ID)>Remove</a> <strong style="color: gray;margin: 5px;">|</strong>
+                            <a href="" style="padding-top: 10px;">
+                                <label class="switchOn" ng-show="item.Status == 0" ng-click="onBanner(item.ID)">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                                <label class="switchOn" ng-show="item.Status != 0" ng-click="offBanner(item.ID)">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+    <div class="center">
+        <button align="center" id="adds" data-toggle="modal" data-target="#postImages">Add Image</button>
+    </div>
+
+</body>
+
+</html>
